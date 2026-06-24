@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Requisições HTTP</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="light">
+    
+    <header class="top-header">
+        <div class="logo">
+            <span class="icon">🌐</span>
+            <h1>Simulador HTTP</h1>
+        </div>
+        <button id="themeToggle" class="btn-icon" title="Alternar Tema">🌙</button>
+    </header>
+
+    <main class="app-container">
+        
+        <section class="client-side">
+            <div class="section-header">
+                <h2>💻 Cliente Web</h2>
+                <p>Envie requisições para o servidor simulado</p>
+            </div>
+
+            <div class="stats-dashboard">
+                <div class="stat-card">
+                    <span class="stat-title">Registros</span>
+                    <span class="stat-value" id="statTotal">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-title method-get">GET</span>
+                    <span class="stat-value" id="statGet">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-title method-post">POST</span>
+                    <span class="stat-value" id="statPost">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-title method-put">PUT</span>
+                    <span class="stat-value" id="statPut">0</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-title method-delete">DELETE</span>
+                    <span class="stat-value" id="statDelete">0</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 id="formTitle">Novo Registro (POST)</h3>
+                <form id="userForm">
+                    <input type="hidden" id="userId">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nome">Nome *</label>
+                            <input type="text" id="nome" placeholder="Ex: João Silva">
+                            <small class="error-msg" id="errNome"></small>
+                        </div>
+                        <div class="form-group">
+                            <label for="documento">Documento (Opcional)</label>
+                            <input type="text" id="documento" placeholder="Ex: 123.456.789-00">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="idade">Idade (Opcional)</label>
+                            <input type="number" id="idade" placeholder="Ex: 30" min="0">
+                            <small class="error-msg" id="errIdade"></small>
+                        </div>
+                        <div class="form-group">
+                            <label for="cidade">Cidade *</label>
+                            <input type="text" id="cidade" placeholder="Ex: São Paulo">
+                            <small class="error-msg" id="errCidade"></small>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="forceError">⚙️ Forçar Resposta do Servidor (Simulação)</label>
+                            <select id="forceError" class="sim-select">
+                                <option value="none">Normal (Executar Corretamente)</option>
+                                <option value="400">Forçar 400 (Bad Request)</option>
+                                <option value="404">Forçar 404 (Not Found)</option>
+                                <option value="500">Forçar 500 (Internal Server Error)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="btnCancel" class="btn btn-secondary hidden">Cancelar Edição</button>
+                        <button type="submit" id="btnSubmit" class="btn btn-primary">Enviar Requisição</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Registros (GET)</h3>
+                    <input type="text" id="searchInput" placeholder="🔍 Buscar..." class="search-input">
+                </div>
+                
+                <div class="table-responsive">
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Cidade</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="server-side">
+            <div class="section-header">
+                <h2>🖥️ Console (Logs)</h2>
+                <button id="btnClearLogs" class="btn btn-sm btn-danger">Limpar Logs</button>
+            </div>
+            
+            <div class="console-container" id="serverLogs">
+                <div class="empty-logs">Aguardando requisições...</div>
+            </div>
+        </section>
+
+        <section class="json-side">
+            <div class="section-header">
+                <h2>📦 Último JSON Gravado</h2>
+                <p>Formato salvo no banco</p>
+            </div>
+            
+            <div class="console-container json-viewer">
+                <pre><code id="jsonOutput" class="json-code">Nenhum registro gravado ainda.</code></pre>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="toastContainer"></div>
+    <script src="script.js"></script>
+</body>
+</html>
